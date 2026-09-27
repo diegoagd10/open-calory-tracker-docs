@@ -1,25 +1,25 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="Guía para registrar una aplicación OAuth y leer el Food Log de Open Calorie Tracker con permiso del usuario." />
-    <title>Conectar una aplicación · Open Calorie Tracker</title>
+    <meta name="description" content="Guide to registering an OAuth application and reading an Open Calorie Tracker Food Log with the owner's permission." />
+    <title>Connect an application · Open Calorie Tracker</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <a class="skip" href="#contenido">Skip to content</a>
     <header class="site-header">
       <div class="wrap header-inner">
-        <a class="brand" href="#inicio" aria-label="Open Calorie Tracker, inicio de la guía">
+        <a class="brand" href="#inicio" aria-label="Open Calorie Tracker, guide home">
           <span class="brand-mark" aria-hidden="true">OC</span>
-          <span>Open Calorie Tracker <span class="brand-suffix">/ Desarrolladores</span></span>
+          <span>Open Calorie Tracker <span class="brand-suffix">/ Developers</span></span>
         </a>
-        <nav aria-label="Secciones de la guía">
-          <a href="#registrar">Registrar</a>
-          <a href="#flujo">Integrar OAuth</a>
-          <a href="#referencia">Referencia</a>
+        <nav aria-label="Guide sections">
+          <a href="#registrar">Register</a>
+          <a href="#flujo">Integrate OAuth</a>
+          <a href="#referencia">Reference</a>
         </nav>
       </div>
     </header>
@@ -27,69 +27,69 @@
     <main id="contenido">
       <section class="hero wrap" id="inicio" aria-labelledby="titulo">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> API de Food Log · v1</p>
-          <h1 id="titulo">Conecta tu aplicación al Food Log.</h1>
-          <p class="lead">Registra tu cliente, pide permiso al dueño del Food Log y lee un día de datos con OAuth 2.0. La persona decide si concede acceso y puede revocarlo cuando quiera.</p>
+          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Food Log API · v1</p>
+          <h1 id="titulo">Connect your app to the Food Log.</h1>
+          <p class="lead">Register your client, ask the Food Log owner for permission, and read one day of data with OAuth 2.0. The owner decides whether to grant access and can revoke it at any time.</p>
           <div class="hero-actions">
-            <a class="button primary" href="#registrar">Empezar a integrar <span aria-hidden="true">↗</span></a>
-            <a class="button secondary" href="#mapa">Ver el recorrido</a>
+            <a class="button primary" href="#registrar">Start integrating <span aria-hidden="true">↗</span></a>
+            <a class="button secondary" href="#mapa">See the flow</a>
           </div>
         </div>
-        <div class="hero-card" aria-label="Resumen de la conexión">
-          <div class="card-heading"><span class="card-icon" aria-hidden="true">↗</span> Una conexión, cuatro pasos</div>
+        <div class="hero-card" aria-label="Connection overview">
+          <div class="card-heading"><span class="card-icon" aria-hidden="true">↗</span> One connection, four steps</div>
           <ol class="hero-steps">
-            <li><span>01</span><div><strong>Registra el cliente</strong><small>Obtén un Client ID y configura el callback.</small></div></li>
-            <li><span>02</span><div><strong>Solicita acceso</strong><small>Redirige al usuario a su instancia.</small></div></li>
-            <li><span>03</span><div><strong>Recibe el código</strong><small>Valida state e intercámbialo con PKCE.</small></div></li>
-            <li><span>04</span><div><strong>Lee el Food Log</strong><small>Usa un access token de solo lectura.</small></div></li>
+            <li><span>01</span><div><strong>Register the client</strong><small>Get a Client ID and configure the callback.</small></div></li>
+            <li><span>02</span><div><strong>Request access</strong><small>Redirect the owner to their instance.</small></div></li>
+            <li><span>03</span><div><strong>Receive the code</strong><small>Validate state and exchange the code with PKCE.</small></div></li>
+            <li><span>04</span><div><strong>Read the Food Log</strong><small>Use a read-only access token.</small></div></li>
           </ol>
         </div>
       </section>
 
-      <section class="notice wrap" aria-label="Dato importante">
+      <section class="notice wrap" aria-label="Important detail">
         <span class="notice-icon" aria-hidden="true">i</span>
-        <p><strong>Cada instalación tiene su propia URL.</strong> En los ejemplos, <code>https://calory.example</code> representa la instancia de Open Calorie Tracker que usa el dueño del Food Log. Sustitúyela por la URL real; esta página de documentación nunca recibe credenciales ni datos de comida.</p>
+        <p><strong>Each installation has its own URL.</strong> In these examples, <code>https://calory.example</code> represents the Open Calorie Tracker instance used by the Food Log owner. Replace it with the real URL. This documentation site never receives credentials or food data.</p>
       </section>
 
       <section class="section wrap" id="mapa" aria-labelledby="mapa-titulo">
-        <div class="section-heading"><p class="eyebrow">El recorrido</p><h2 id="mapa-titulo">Quién hace qué</h2><p>Registrar una aplicación y autorizarla son acciones distintas. Pueden hacerlas personas diferentes.</p></div>
+        <div class="section-heading"><p class="eyebrow">The flow</p><h2 id="mapa-titulo">Who does what</h2><p>Registering an app and authorizing it are separate actions. Different people can perform them.</p></div>
         <div class="journey">
-          <article class="journey-card"><span class="number">01</span><h3>Quien desarrolla la app</h3><p>En <strong>Settings → OAuth clients</strong> registra el nombre, tipo y URI de retorno. Recibe el <code>client_id</code>. En un cliente confidencial recibe además un secreto que se muestra una sola vez.</p></article>
-          <article class="journey-card"><span class="number">02</span><h3>Dueño del Food Log</h3><p>Abre la solicitud de autorización en su navegador, inicia sesión y marca el permiso <code>daily-log:read</code>. Puede permitirlo o rechazarlo.</p></article>
-          <article class="journey-card"><span class="number">03</span><h3>La aplicación</h3><p>Recibe la redirección en su callback, valida <code>state</code>, intercambia el código por tokens y llama a la API con <code>Authorization: Bearer</code>.</p></article>
+          <article class="journey-card"><span class="number">01</span><h3>App developer</h3><p>In <strong>Settings → OAuth clients</strong>, register the name, type, and redirect URI. You receive a <code>client_id</code>. A confidential client also receives a secret shown only once.</p></article>
+          <article class="journey-card"><span class="number">02</span><h3>Food Log owner</h3><p>Opens the authorization request in their browser, signs in, and selects the <code>daily-log:read</code> permission. They can allow or decline.</p></article>
+          <article class="journey-card"><span class="number">03</span><h3>The application</h3><p>Receives the redirect at its callback, validates <code>state</code>, exchanges the code for tokens, and calls the API with <code>Authorization: Bearer</code>.</p></article>
         </div>
-        <p class="callout"><strong>El Client ID identifica la aplicación, no al usuario.</strong> El token identifica la conexión aprobada y determina qué Food Log se lee. Registrar un cliente no concede acceso por sí solo.</p>
+        <p class="callout"><strong>The Client ID identifies the application, not the user.</strong> The token identifies the approved connection and determines which Food Log is read. Registration alone does not grant access.</p>
       </section>
 
       <section class="section section-tinted" id="registrar" aria-labelledby="registrar-titulo">
         <div class="wrap">
-          <div class="section-heading"><p class="eyebrow">Paso 1</p><h2 id="registrar-titulo">Registra tu aplicación</h2><p>Entra a tu instancia, abre <strong>Settings → OAuth clients</strong> y selecciona <strong>Register a client</strong>.</p></div>
+          <div class="section-heading"><p class="eyebrow">Step 1</p><h2 id="registrar-titulo">Register your application</h2><p>Sign in to your instance, open <strong>Settings → OAuth clients</strong>, and select <strong>Register a client</strong>.</p></div>
           <div class="split">
             <div>
-              <h3>Elige el tipo correcto</h3>
-              <div class="type-card"><span class="pill">Público</span><h4>CLI, móvil o app en el navegador</h4><p>El código se distribuye a usuarios o corre en su dispositivo. No puede guardar un secreto compartido. Usa Client ID + PKCE.</p></div>
-              <div class="type-card"><span class="pill">Confidencial</span><h4>Servidor que controla tu equipo</h4><p>Puede guardar el secreto en el servidor. Usa Client ID + PKCE + autenticación Basic en el token endpoint. Nunca envíes el secreto al navegador.</p></div>
+              <h3>Choose the right client type</h3>
+              <div class="type-card"><span class="pill">Public</span><h4>CLI, mobile, or browser app</h4><p>Its code runs on a user's device or is distributed to users. It cannot keep a shared secret. Use Client ID + PKCE.</p></div>
+              <div class="type-card"><span class="pill">Confidential</span><h4>Server you control</h4><p>It can keep the secret on the server. Use Client ID + PKCE + Basic authentication at the token endpoint. Never send the secret to the browser.</p></div>
             </div>
             <div class="registration-panel">
-              <h3>Datos que debes preparar</h3>
+              <h3>Details to prepare</h3>
               <dl>
-                <div><dt>Nombre</dt><dd>El nombre que verá el usuario al autorizar.</dd></div>
-                <div><dt>Redirect URI</dt><dd>La URL de tu callback, por ejemplo <code>https://mi-app.example/oauth/callback</code>.</dd></div>
-                <div><dt>Permiso disponible</dt><dd><code>daily-log:read</code> — consulta únicamente.</dd></div>
+                <div><dt>Name</dt><dd>The name the owner sees when authorizing.</dd></div>
+                <div><dt>Redirect URI</dt><dd>Your callback URL, for example <code>https://my-app.example/oauth/callback</code>.</dd></div>
+                <div><dt>Available permission</dt><dd><code>daily-log:read</code> — read-only access.</dd></div>
               </dl>
-              <p>Guarda el <strong>Client ID</strong> que muestra la confirmación. Si elegiste confidencial, copia también el <strong>Client Secret</strong> en ese momento: después no se vuelve a mostrar.</p>
+              <p>Save the <strong>Client ID</strong> shown on the confirmation page. If you chose a confidential client, copy the <strong>Client Secret</strong> now: it will not be shown again.</p>
             </div>
           </div>
-          <p class="fine-print">Puedes registrar de 1 a 10 URI de retorno, una por línea. Deben usar HTTPS; HTTP se permite solo con <code>localhost</code>, <code>127.0.0.1</code> o <code>[::1]</code>. La solicitud OAuth debe usar exactamente una URI guardada en el registro. Para producción, publica la instancia y el callback mediante HTTPS confiable.</p>
+          <p class="fine-print">You can register 1 to 10 redirect URIs, one per line. They must use HTTPS; HTTP is allowed only for <code>localhost</code>, <code>127.0.0.1</code> or <code>[::1]</code>. The OAuth request must use a URI saved in the registration exactly. In production, serve the instance and callback over trusted HTTPS.</p>
         </div>
       </section>
 
       <section class="section wrap" id="flujo" aria-labelledby="flujo-titulo">
-        <div class="section-heading"><p class="eyebrow">Pasos 2–4</p><h2 id="flujo-titulo">Integra el flujo OAuth</h2><p>Los ejemplos usan un cliente público de línea de comandos con callback local. En un cliente confidencial, añade el secreto solo en el servidor.</p></div>
+        <div class="section-heading"><p class="eyebrow">Steps 2–5</p><h2 id="flujo-titulo">Integrate the OAuth flow</h2><p>These examples use a public command-line client with a local callback. For a confidential client, add the secret only on the server.</p></div>
         <div class="step-layout">
           <div class="step-marker">2</div>
-          <div class="step-body"><h3>Prepara PKCE y redirige al navegador</h3><p>Genera un <code>code_verifier</code> y un <code>state</code> nuevos para cada intento. Conserva ambos asociados a la sesión hasta que vuelva el callback. Descubre las URLs oficiales de tu instancia en <code>/.well-known/oauth-authorization-server</code>.</p>
-            <div class="code-wrap"><div class="code-title">JavaScript · construir la URL de autorización</div><pre><code>import { randomBytes, createHash } from "node:crypto";
+          <div class="step-body"><h3>Prepare PKCE and open the browser</h3><p>Generate a fresh <code>code_verifier</code> and <code>state</code> for each attempt. Store both with the session until the callback returns. Discover your instance's official URLs at <code>/.well-known/oauth-authorization-server</code>.</p>
+            <div class="code-wrap"><div class="code-title">JavaScript · build the authorization URL</div><pre><code>import { randomBytes, createHash } from "node:crypto";
 
 function startAuthorization(instanceUrl, clientId, redirectUri) {
   const verifier = randomBytes(32).toString("base64url");
@@ -109,51 +109,51 @@ function startAuthorization(instanceUrl, clientId, redirectUri) {
   return { authorizationUrl: url.toString(), verifier, state };
 }
 
-// Guarda verifier y state en la sesión; abre authorizationUrl
-// en el navegador del dueño del Food Log.</code></pre></div>
+// Store verifier and state with the session. Open authorizationUrl
+// in the Food Log owner's browser.</code></pre></div>
           </div>
         </div>
         <div class="step-layout">
           <div class="step-marker">3</div>
-          <div class="step-body"><h3>Procesa el callback</h3><p>Tras iniciar sesión y aceptar el permiso, el navegador vuelve a tu <code>redirect_uri</code> con <code>code</code> y <code>state</code>. Comprueba que <code>state</code> coincide con el guardado <strong>antes</strong> de usar el código. Si la persona declina, recibirás <code>error=access_denied</code>. El código dura cinco minutos y se usa una sola vez.</p>
-            <div class="code-wrap"><div class="code-title">Ejemplo de respuesta al callback</div><pre><code>http://127.0.0.1:4567/callback?code=CODIGO&amp;state=STATE</code></pre></div>
+          <div class="step-body"><h3>Handle the callback</h3><p>After sign-in and approval, the browser returns to your <code>redirect_uri</code> with <code>code</code> and <code>state</code>. Check that <code>state</code> matches the stored value <strong>before</strong> using the code. If the owner declines, you receive <code>error=access_denied</code>. The code expires after five minutes and can be used only once.</p>
+            <div class="code-wrap"><div class="code-title">Example callback URL</div><pre><code>http://127.0.0.1:4567/callback?code=CODE&amp;state=STATE</code></pre></div>
           </div>
         </div>
         <div class="step-layout">
           <div class="step-marker">4</div>
-          <div class="step-body"><h3>Intercambia el código por tokens</h3><p>Envía el mismo <code>redirect_uri</code> y el <code>code_verifier</code> original. Un cliente público no manda secret; un cliente confidencial añade <code>Authorization: Basic base64(client_id:client_secret)</code> desde su servidor.</p>
-            <div class="code-wrap"><div class="code-title">Cliente público · POST /oauth/token</div><pre><code>curl -X POST "https://calory.example/oauth/token" \
+          <div class="step-body"><h3>Exchange the code for tokens</h3><p>Send the same <code>redirect_uri</code> and the original <code>code_verifier</code>. A public client sends no secret; a confidential client also sends <code>Authorization: Basic base64(client_id:client_secret)</code> from its server.</p>
+            <div class="code-wrap"><div class="code-title">Public client · POST /oauth/token</div><pre><code>curl -X POST "https://calory.example/oauth/token" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   --data-urlencode "grant_type=authorization_code" \
-  --data-urlencode "client_id=TU_CLIENT_ID" \
-  --data-urlencode "code=CODIGO_DEL_CALLBACK" \
+  --data-urlencode "client_id=YOUR_CLIENT_ID" \
+  --data-urlencode "code=CODE_FROM_CALLBACK" \
   --data-urlencode "redirect_uri=http://127.0.0.1:4567/callback" \
-  --data-urlencode "code_verifier=VERIFIER_GUARDADO"</code></pre></div>
-            <p>La respuesta incluye <code>access_token</code>, <code>refresh_token</code>, <code>token_type: "Bearer"</code>, <code>scope: "daily-log:read"</code> y <code>expires_in: 900</code> (15 minutos).</p>
+  --data-urlencode "code_verifier=SAVED_VERIFIER"</code></pre></div>
+            <p>The response includes <code>access_token</code>, <code>refresh_token</code>, <code>token_type: "Bearer"</code>, <code>scope: "daily-log:read"</code> and <code>expires_in: 900</code> (15 minutes).</p>
           </div>
         </div>
         <div class="step-layout last-step">
           <div class="step-marker">5</div>
-          <div class="step-body"><h3>Lee un día del Food Log</h3><p>La fecha tiene formato <code>YYYY-MM-DD</code>. No pases un User ID: el servidor elige la cuenta asociada al token.</p>
+          <div class="step-body"><h3>Read a day of the Food Log</h3><p>The date uses <code>YYYY-MM-DD</code>. Do not pass a User ID: the server selects the account associated with the token.</p>
             <div class="code-wrap"><div class="code-title">GET /api/v1/daily-log</div><pre><code>curl "https://calory.example/api/v1/daily-log?date=2026-09-27" \
-  -H "Authorization: Bearer TU_ACCESS_TOKEN"</code></pre></div>
-            <p>Recibirás JSON con entradas de comida, agua, objetivos y totales nutricionales. La API v1 es de <strong>solo lectura</strong>.</p>
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"</code></pre></div>
+            <p>The JSON response includes food entries, water, goals, and nutrition totals. API v1 is <strong>read-only</strong>.</p>
           </div>
         </div>
       </section>
 
       <section class="section section-tinted" id="referencia" aria-labelledby="referencia-titulo">
         <div class="wrap">
-          <div class="section-heading"><p class="eyebrow">Referencia rápida</p><h2 id="referencia-titulo">Mantén la conexión bajo control</h2></div>
+          <div class="section-heading"><p class="eyebrow">Quick reference</p><h2 id="referencia-titulo">Manage the connection</h2></div>
           <div class="reference-grid">
-            <article class="reference-card"><h3>Renovar</h3><p>Cuando caduque el access token, envía <code>grant_type=refresh_token</code>, <code>client_id</code> y el refresh token vigente a <code>POST /oauth/token</code>. El cliente confidencial vuelve a usar Basic. Guarda el nuevo refresh token de forma atómica: cada uno se usa una sola vez.</p></article>
-            <article class="reference-card"><h3>Revocar</h3><p>El dueño del Food Log puede abrir <strong>Settings → OAuth clients</strong> y revocar una conexión. Sus access y refresh tokens dejan de funcionar de inmediato; las demás conexiones no cambian.</p></article>
-            <article class="reference-card"><h3>Proteger credenciales</h3><p>Conserva tokens y secretos fuera de URLs, repositorios y registros. Usa HTTPS para la instancia y el callback externo. Un Client Secret nunca sustituye el permiso del usuario ni un Bearer token.</p></article>
+            <article class="reference-card"><h3>Refresh</h3><p>When the access token expires, send <code>grant_type=refresh_token</code>, <code>client_id</code>, and the current refresh token to <code>POST /oauth/token</code>. A confidential client uses Basic again. Store the new refresh token atomically: each refresh token can be used only once.</p></article>
+            <article class="reference-card"><h3>Revoke</h3><p>The Food Log owner can open <strong>Settings → OAuth clients</strong> and revoke a connection. Its access and refresh tokens stop working immediately; other connections are unaffected.</p></article>
+            <article class="reference-card"><h3>Protect credentials</h3><p>Keep tokens and secrets out of URLs, repositories, and logs. Use HTTPS for the instance and external callback. A Client Secret never replaces the owner's permission or a Bearer token.</p></article>
           </div>
-          <div class="endpoint-list" aria-label="Endpoints OAuth y API"><div><code>GET /.well-known/oauth-authorization-server</code><span>Descubrimiento</span></div><div><code>GET /oauth/authorize</code><span>Consentimiento</span></div><div><code>POST /oauth/token</code><span>Tokens y renovación</span></div><div><code>GET /api/v1/daily-log?date=YYYY-MM-DD</code><span>Lectura de un día</span></div></div>
+          <div class="endpoint-list" aria-label="OAuth and API endpoints"><div><code>GET /.well-known/oauth-authorization-server</code><span>Discovery</span></div><div><code>GET /oauth/authorize</code><span>Consent</span></div><div><code>POST /oauth/token</code><span>Tokens and refresh</span></div><div><code>GET /api/v1/daily-log?date=YYYY-MM-DD</code><span>Read one day</span></div></div>
         </div>
       </section>
     </main>
-    <footer class="site-footer"><div class="wrap"><span><span class="brand-mark small" aria-hidden="true">OC</span> Open Calorie Tracker</span><span>Guía de integración OAuth · API v1</span></div></footer>
+    <footer class="site-footer"><div class="wrap"><span><span class="brand-mark small" aria-hidden="true">OC</span> Open Calorie Tracker</span><span>OAuth integration guide · API v1</span></div></footer>
   </body>
 </html>
